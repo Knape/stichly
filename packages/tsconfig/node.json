@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "node",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "commonjs",
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "esModuleInterop": false,
+    "skipLibCheck": true
+  }
+}

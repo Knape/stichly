@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "darwin-arm64", "linux-arm64-openssl-1.1.x"]
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int                       @id @default(autoincrement())
+  email    String                    @unique
+  name     String?
+  products ProductsFollowedByUsers[]
+}
+
+model Store {
+  id         Int       @id @default(autoincrement())
+  url        String    @unique
+  name       String
+  brandsPath String
+  isRetailer Boolean   @default(false)
+  brands     Brand[]
+  products   Product[]
+}
+
+model Brand {
+  id          Int       @id @default(autoincrement())
+  url         String    @unique
+  path        String
+  name        String
+  description String?
+  storeId     Int
+  store       Store     @relation(fields: [storeId], references: [id])
+  products    Product[]
+}
+
+model Product {
+  id           Int                       @id @default(autoincrement())
+  url          String                    @unique
+  active       Boolean                   @default(false)
+  createdAt    DateTime                  @default(now())
+  name         String?
+  image        String?
+  description  String?
+  details      String?
+  category     String?
+  price        Int                       @default(0)
+  discount     Int                       @default(0)
+  salePrice    Int?
+  brandId      Int
+  brand        Brand                     @relation(fields: [brandId], references: [id])
+  storeId      Int
+  store        Store                     @relation(fields: [storeId], references: [id])
+  priceHistory PriceHistory[]
+  users        ProductsFollowedByUsers[]
+}
+
+model ProductsFollowedByUsers {
+  productId  Int
+  userId     Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+  product    Product  @relation(fields: [productId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([productId, userId])
+}
+
+model PriceHistory {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  salePrice Int?
+  price     Int
+  discount  Int
+  createdAt DateTime @default(now())
+  isoDate   String
+  product   Product  @relation(fields: [productId], references: [id])
+}
