@@ -47,7 +47,6 @@ const prisma = new PrismaClient();
         },
       });
     } catch (error) {
-      console.log("error");
       console.log(error);
     } finally {
       await updateTransactionToDone(item.transactionId.toString(), {
@@ -90,7 +89,6 @@ const prisma = new PrismaClient();
         )
       );
     } catch (error) {
-      console.log("error");
       console.log(error);
     } finally {
       await updateTransactionToDone(item.transactionId.toString(), {

@@ -61,22 +61,29 @@ router.get("/brands/:id/products", async (req: Request, res: Response) => {
 });
 
 router.get("/products", async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany({
-    include: {
-      priceHistory: {
-        orderBy: {
-          createdAt: "desc",
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        priceHistory: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
         },
-        take: 1,
+        brand: true,
+        store: true,
       },
-      brand: true,
-      store: true,
-    },
-  });
-  return res.json({
-    success: true,
-    data: products,
-  });
+    });
+    return res.json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    return res.json({
+      success: false,
+      error: error,
+    });
+  }
 });
 
 router.get("/products/:id", async (req: Request, res: Response) => {

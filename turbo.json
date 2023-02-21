@@ -6,7 +6,13 @@
     "**/.env.*local",
     "**/config-eslint/index.js"
   ],
-  "globalEnv": ["RABBITMQ_QUEUE", "REDIS_HOST", "REDIS_PORT"],
+  "globalEnv": [
+    "RABBITMQ_QUEUE",
+    "REDIS_HOST",
+    "REDIS_PORT",
+    "API_PORT",
+    "NODE_ENV"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],

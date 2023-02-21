@@ -16,19 +16,19 @@ builder.prismaObject("Brand", {
   }),
 });
 
-builder.prismaObject("Store", {
-  fields: (t) => ({
-    id: t.exposeID("id"),
-    url: t.exposeString("url"),
-  }),
-});
+// builder.prismaObject("Store", {
+//   fields: (t) => ({
+//     id: t.exposeID("id"),
+//     url: t.exposeString("url"),
+//   }),
+// });
 
-builder.prismaNode("Product", {
-  id: { field: "id" },
-  fields: (t) => ({
-    url: t.exposeString("url"),
-  }),
-});
+// builder.prismaNode("Product", {
+//   id: { field: "id" },
+//   fields: (t) => ({
+//     url: t.exposeString("url"),
+//   }),
+// });
 
 builder.queryField("brands", (t) =>
   t.prismaConnection({
